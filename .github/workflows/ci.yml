@@ -31,10 +31,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      run: dotnet restore .\ProjectAlpha.sln
+      run: dotnet restore
       
     - name: Build
-      run: dotnet build --configuration Release --no-restore .\ProjectAlpha.sln
+      run: dotnet build --configuration Release --no-restore
     
     - name: Test
-      run: dotnet test --no-restore --verbosity normal .\ProjectAlpha.sln
+      run: dotnet test --no-restore --verbosity normal
