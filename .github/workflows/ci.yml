@@ -16,6 +16,9 @@ jobs:
 
     name: build-and-test-${{matrix.os}}
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ProjectAlpha
 
     strategy:
       matrix:
@@ -29,13 +32,10 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Install dependencies
-      working-directory: ProjectAlpha
       run: dotnet restore
       
     - name: Build
-      working-directory: ProjectAlpha
       run: dotnet build --configuration Release --no-restore 
     
     - name: Test
-      working-directory: ProjectAlpha
       run: dotnet test --no-restore --verbosity normal
