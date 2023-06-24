@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ main ]
     paths-ignore:
-    - 'MultiProjectsCI/ProjectAlpha/StandaloneApps/**'
+    - 'ProjectAlpha/StandaloneApps/**'
 
 env:
   DOTNET_VERSION: '7.0.100' # The .NET SDK version to use
