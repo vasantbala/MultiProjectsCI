@@ -2,10 +2,10 @@ name: build and test
 
 on:
   push:
+    paths-ignore:
+      - 'ProjectAlpha/StandaloneApps/**'
   pull_request:
     branches: [ main ]
-    paths-ignore:
-    - 'ProjectAlpha/StandaloneApps/**'
 
 env:
   DOTNET_VERSION: '7.0.100' # The .NET SDK version to use
