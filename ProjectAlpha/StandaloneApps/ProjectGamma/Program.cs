@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using ProjectGamma.Configurations;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,40 @@ if (authenticationSettings?.Mode == "Certificate")
                 options.ClientCertificateMode = Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode.RequireCertificate);
         });
     }
+
+    builder.Services
+        .AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
+        .AddCertificate(options =>
+        {
+            options.Events = new CertificateAuthenticationEvents()
+            {
+                OnCertificateValidated = context =>
+                {
+                    if (authenticationSettings.AllowedThumbprints.Contains(context.ClientCertificate.Thumbprint, StringComparer.OrdinalIgnoreCase))
+                    {
+                        var claims = new[]
+                        {
+                            new Claim(
+                                ClaimTypes.NameIdentifier,
+                                context.ClientCertificate.Subject,
+                                ClaimValueTypes.String, context.Options.ClaimsIssuer),
+                            new Claim(
+                                ClaimTypes.Name,
+                                context.ClientCertificate.Subject,
+                                ClaimValueTypes.String, context.Options.ClaimsIssuer)
+                        };
+
+                        context.Principal = new ClaimsPrincipal(
+                            new ClaimsIdentity(claims, context.Scheme.Name));
+                        context.Success();
+
+                        
+                    }
+                    return Task.CompletedTask;
+                }
+            };
+        }
+        );
 }
 
 
@@ -38,7 +74,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
