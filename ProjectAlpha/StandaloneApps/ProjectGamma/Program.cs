@@ -16,6 +16,7 @@ builder.Services.AddSwaggerGen();
 var authenticationSettings = new AuthenticationSettings();
 builder.Configuration.GetSection("AuthenticationSettings").Bind(authenticationSettings);
 
+var key = builder.Configuration.GetSection("SecuredSettings:ApiKey").Value;
 if (authenticationSettings?.Mode == "Certificate")
 {
     if (authenticationSettings.HostingType.Contains("Kestrel"))
@@ -65,6 +66,10 @@ if (authenticationSettings?.Mode == "Certificate")
 
 
 var app = builder.Build();
+
+SecuredSettings.ConfigureSetting(app.Services.GetRequiredService<IConfiguration>());
+
+var apiKey = SecuredSettings.GetSetting("SecuredSettings:ApiKey");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
