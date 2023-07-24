@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using ProjectGamma;
 using ProjectGamma.Configurations;
+using ProjectGamma.Middleware;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddFoo(builder.Configuration);
 
+builder.Services.AddTransient<IStartupFilter, CertificateAuthenticationStartupFilter>();
 var authenticationSettings = new AuthenticationSettings();
 builder.Configuration.GetSection("AuthenticationSettings").Bind(authenticationSettings);
 
@@ -23,8 +27,9 @@ if (authenticationSettings?.Mode == "Certificate")
     {
         builder.Services.Configure<KestrelServerOptions>(options =>
         {
-            options.ConfigureHttpsDefaults(options =>
-                options.ClientCertificateMode = Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode.RequireCertificate);
+            options.ConfigureHttpsDefaults(options => 
+            options.ClientCertificateMode = Microsoft.AspNetCore.Server.Kestrel.Https.ClientCertificateMode.AllowCertificate);
+                
         });
     }
 
@@ -32,6 +37,8 @@ if (authenticationSettings?.Mode == "Certificate")
         .AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
         .AddCertificate(options =>
         {
+            options.AllowedCertificateTypes = CertificateTypes.All;
+            options.RevocationMode = System.Security.Cryptography.X509Certificates.X509RevocationMode.NoCheck;
             options.Events = new CertificateAuthenticationEvents()
             {
                 OnCertificateValidated = context =>
@@ -57,7 +64,12 @@ if (authenticationSettings?.Mode == "Certificate")
                         
                     }
                     return Task.CompletedTask;
+                },
+                OnAuthenticationFailed = context => 
+                {
+                    return Task.CompletedTask;
                 }
+
             };
         }
         );
