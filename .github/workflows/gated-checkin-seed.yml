@@ -7,4 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: my-step
+        shell: pwsh
         run: echo "Hello World!"
