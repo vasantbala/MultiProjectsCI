@@ -1,1 +1,2 @@
-seed1=alpha
+seed1=alpha-modified
+seed2=two-added
