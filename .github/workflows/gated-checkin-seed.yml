@@ -3,10 +3,14 @@ name: hello-world
 on: push
 
 jobs:
-  check-seed-file:
+
+  gated-checkin:
     runs-on: ubuntu-latest
     steps:
-      - name: my-step        
+      # Runs a set of commands using the runners shell
+      - uses: actions/checkout@v3
+      - name: Run a multi-line script
+        working-directory: ./automation/codereviews
         shell: pwsh
         run: |
           .\seedfile.ps1
