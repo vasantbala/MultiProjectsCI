@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
       - name: Get Pull Request Number
         id: pr
-        run: echo "::set-output name=pull_request_number::$(gh pr view --json || echo "")"
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .headRefOid || echo "")"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: echo ${{ steps.pr.outputs.pull_request_number }}
