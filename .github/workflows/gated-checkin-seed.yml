@@ -9,8 +9,11 @@ jobs:
     steps:
       # Runs a set of commands using the runners shell
       - uses: actions/checkout@v3
-      - name: Run a multi-line script
+      - name: Review Seed file change
         working-directory: ./automation/codereviews
         shell: pwsh
+        env:
+          baseCommitSha: ${{ github.head_ref }}
+          changeCommitSha: ${{ github.sha }}
         run: |
-          .\seedfile.ps1
+          .\seedfile.ps1 -BaseCommitSha $env:baseCommitSha -ChangeCommitSha $env:changeCommitSha
