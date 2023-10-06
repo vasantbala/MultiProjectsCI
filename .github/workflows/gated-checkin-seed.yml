@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: my-step
+        working-directory: ./automation/codereviews
         shell: pwsh
         run: |
-          .\automation\codereviews\seedfile.ps1
+          ./seedfile.ps1
