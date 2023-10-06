@@ -6,8 +6,7 @@ jobs:
   check-seed-file:
     runs-on: ubuntu-latest
     steps:
-      - name: my-step
-        working-directory: ../automation/codereviews
+      - name: my-step        
         shell: pwsh
         run: |
           ./seedfile.ps1
