@@ -9,4 +9,4 @@ jobs:
       - name: my-step        
         shell: pwsh
         run: |
-          ./seedfile.ps1
+          .\seedfile.ps1
