@@ -13,7 +13,7 @@ jobs:
         working-directory: ./automation/codereviews
         shell: pwsh
         env:
-          baseCommitSha: ${{ github.event.pull_request.head.sha }}
+          baseCommitSha: ${{ github.event.pull_request.base.sha }}
           changeCommitSha: ${{ github.sha }}
         run: |
           .\seedfile.ps1 -BaseCommitSha $env:baseCommitSha -ChangeCommitSha $env:changeCommitSha
