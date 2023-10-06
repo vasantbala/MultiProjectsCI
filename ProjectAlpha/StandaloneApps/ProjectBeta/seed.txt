@@ -1,1 +1,3 @@
-seed1=alpha
+seed1=beta
+seed2=two
+seed3=three
