@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory)]
-    [String]$BaseCommitSha
+    [String]$BaseCommitSha,
     [Parameter(Mandatory)]
     [String]$ChangeCommitSha
 )
