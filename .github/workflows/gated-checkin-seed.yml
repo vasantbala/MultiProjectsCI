@@ -8,31 +8,5 @@ jobs:
     steps:
       - name: my-step
         shell: pwsh
-        run: echo "Hello World!"
-  
-  changedfiles:
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      all: ${{ steps.changes.outputs.all}}
-      ts: ${{ steps.changes.outputs.ts }}
-    steps:
-        # Make sure we have some code to diff.
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Get changed files
-        id: changes
-        # Set outputs using the command.
         run: |
-          echo "{all}={$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.sha }} | xargs)}" >> $GITHUB_OUTPUT
-          echo "{ts}={$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.head.sha }} ${{ github.sha }} | grep .ts$ | xargs)}" >> $GITHUB_OUTPUT
-  
-  lint:
-    runs-on: ubuntu-latest
-    # require the first job to have ran
-    needs: changedfiles
-    # only run there are changed files
-    if: ${{needs.changedfiles.outputs.ts}}
-    steps:
-      - name: echo changed files
-        run: echo ${{needs.changedfiles.outputs.ts}}
+          .\automation\codereviews\seedfile.ps1
