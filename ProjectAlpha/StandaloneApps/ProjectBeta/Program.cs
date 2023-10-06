@@ -3,3 +3,5 @@
 //another, one more
 //Build beta
 Console.WriteLine("Hello, This is project Beta!");
+//Build beta two
+Console.WriteLine("Hello, This is project Beta two!");
