@@ -1,6 +1,9 @@
 name: hello-world
 
-on: push
+on: 
+  pull_request:
+    branches:
+      - main
 
 jobs:
 
@@ -14,6 +17,6 @@ jobs:
         shell: pwsh
         env:
           baseCommitSha: ${{ github.event_name }}
-          changeCommitSha: ${{ github.sha }}
+          changeCommitSha: ${{ github.event.pull_request.head.sha }}
         run: |
           .\seedfile.ps1 -BaseCommitSha $env:baseCommitSha -ChangeCommitSha $env:changeCommitSha
