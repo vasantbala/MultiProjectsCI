@@ -7,4 +7,5 @@ param(
 
 Write-Host 'Hello world'
 Write-Host "Base: $($BaseCommitSha); Change: $($ChangeCommitSha)"
-git log -n 1 main
+$sha = git log -n 1 --pretty=format:"%H"
+Write-Host $sha
