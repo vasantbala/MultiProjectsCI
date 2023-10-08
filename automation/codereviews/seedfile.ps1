@@ -7,5 +7,5 @@ param(
 
 Write-Host 'Hello world'
 Write-Host "Base: $($BaseCommitSha); Change: $($ChangeCommitSha)"
-$sha = gh api vasantbala/MultiProjectsCI/pulls/3
+$sha = gh api repos/vasantbala/MultiProjectsCI/pulls/3
 Write-Host $sha
