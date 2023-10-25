@@ -2,11 +2,13 @@ name: Simple
 
 on: 
     workflow_call:
-
+        inputs:
+            name:
+                description: 'input1'
+                type: string
 jobs:
-  hello-world:
+  job1:
     runs-on: ubuntu-latest
     steps:
       - name: Step 1
-        run: |
-            echo 'Dummy step'
+        run: echo 'Dummy step ${{ inputs.input1 }}'
