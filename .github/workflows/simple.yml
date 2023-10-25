@@ -1,0 +1,12 @@
+name: Simple
+
+on: 
+    workflow_call:
+
+jobs:
+  hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        run: |
+            echo 'Dummy step'
